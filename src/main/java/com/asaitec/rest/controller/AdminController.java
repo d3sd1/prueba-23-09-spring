@@ -1,51 +1,75 @@
 package com.asaitec.rest.controller;
 
+import com.asaitec.rest.exception.NoTicketFoundException;
+import com.asaitec.rest.model.Operator;
+import com.asaitec.rest.model.OperatorStatus;
+import com.asaitec.rest.model.Ticket;
 import com.asaitec.rest.model.TicketStatus;
+import com.asaitec.rest.repository.OperatorRepository;
+import com.asaitec.rest.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+    private final OperatorRepository operatorRepository;
+    private final TicketRepository ticketRepository;
+
+    public AdminController(OperatorRepository operatorRepository, TicketRepository ticketRepository) {
+        this.operatorRepository = operatorRepository;
+        this.ticketRepository = ticketRepository;
+    }
+
     /**
-     * View current operator tickets
+     * Get all tickets.
      *
-     * @return
+     * @return All tickets.
      */
     @GetMapping("/tickets")
-    public void operatorViewSelfTickets() {
-
-    }
-
-    //TODO -> entender estoo
-    /**
-     * View current operator tickets
-     *
-     * @return
-     */
-    @PostMapping("/ticket/assign/{ticketId}/{operatorId}")
-    public void adminAsignTicket(@PathVariable("ticketId") int ticketId, @PathVariable("operatorId") int operatorId) {
-
+    public List<Ticket> getAllTickets() {
+        return this.ticketRepository.findAll();
     }
 
     /**
-     * View current operator tickets
+     * Get ticket by id.
      *
-     * @return
+     * @return Ticket if found.
      */
-    @PostMapping("/ticket/{ticketId}/{status}")
-    public void adminModifyStatus(@PathVariable("ticketId") int ticketId, @PathVariable("status") TicketStatus ticketStatus) {
-
+    @GetMapping("/ticket/{ticketId}")
+    public Ticket getTicketById(@PathVariable("ticketId") long ticketId) throws NoTicketFoundException {
+        Optional<Ticket> ticketOptional = this.ticketRepository.findOneById(ticketId);
+        if (ticketOptional.isEmpty()) {
+            throw new NoTicketFoundException();
+        }
+        return ticketOptional.get();
     }
 
     /**
-     * View current operator tickets
+     * Delete ticket by id.
      *
-     * @return
+     * @return Ticket if found.
      */
-    @DeleteMapping("/ticket/{ticketId}")
-    public void adminDeleteTicket(@PathVariable("ticketId") int ticketId) {
-
+    @DeleteMapping("/ticket/del/{ticketId}")
+    public void deleteTicketById(@PathVariable("ticketId") long ticketId) throws NoTicketFoundException {
+        this.ticketRepository.deleteById(ticketId);
     }
+
+
+    /**
+     * Modify ticket status.
+     *
+     * @return List<Operator> that matches current criteria. Can be empty.
+     */
+    @PostMapping("/status/{ticketId}/{ticketStatus}")
+    public Ticket clientCloseTicket(@PathVariable("ticketId") int ticketId,
+                                    @PathVariable("ticketStatus") TicketStatus ticketStatus)
+            throws NoTicketFoundException {
+        return this.ticketRepository.modifyTicketStatus(ticketId, ticketStatus);
+    }
+
 
 }

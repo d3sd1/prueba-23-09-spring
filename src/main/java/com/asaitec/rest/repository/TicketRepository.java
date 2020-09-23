@@ -76,15 +76,30 @@ public class TicketRepository {
         return ticket.get();
     }
 
-    public Ticket closeTicket(long ticketId) throws NoTicketFoundException {
+    public Ticket modifyTicketStatus(long ticketId, TicketStatus ticketStatus) throws NoTicketFoundException {
         Optional<Ticket> ticket = this.tickets.stream().
                 filter(p -> p.getTicketId() == ticketId)
                 .findFirst();
         if (ticket.isPresent()) {
-            ticket.get().setStatus(TicketStatus.CLOSED);
+            ticket.get().setStatus(ticketStatus);
         } else {
             throw new NoTicketFoundException();
         }
         return ticket.get();
+    }
+
+    public void deleteById(long ticketId) throws NoTicketFoundException {
+        Optional<Ticket> ticket = this.tickets.stream().
+                filter(p -> p.getTicketId() == ticketId)
+                .findFirst();
+        if (ticket.isPresent()) {
+            this.tickets.remove(ticket.get());
+        } else {
+            throw new NoTicketFoundException();
+        }
+    }
+
+    public List<Ticket> findAll() {
+        return this.tickets;
     }
 }

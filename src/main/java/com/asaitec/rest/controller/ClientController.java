@@ -2,10 +2,7 @@ package com.asaitec.rest.controller;
 
 import com.asaitec.rest.exception.NoOperatorFoundException;
 import com.asaitec.rest.exception.NoTicketFoundException;
-import com.asaitec.rest.model.Comment;
-import com.asaitec.rest.model.Operator;
-import com.asaitec.rest.model.OperatorStatus;
-import com.asaitec.rest.model.Ticket;
+import com.asaitec.rest.model.*;
 import com.asaitec.rest.repository.OperatorRepository;
 import com.asaitec.rest.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -94,6 +91,6 @@ public class ClientController {
      */
     @DeleteMapping("/ticket/{ticketId}")
     public Ticket clientCloseTicket(@PathVariable("ticketId") int ticketId) throws NoTicketFoundException {
-        return this.ticketRepository.closeTicket(ticketId);
+        return this.ticketRepository.modifyTicketStatus(ticketId, TicketStatus.CLOSED);
     }
 }

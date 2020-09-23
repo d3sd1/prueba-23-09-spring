@@ -14,3 +14,5 @@
 - Operator should only comment their tickets, but we can't handle that constraint that easy yet.
 - Constraints @NotNull, etc not implemented due to time... and no javax hibernate validation package.
 - Tickets are not differenciated between clients and operators intentionally. We can make it easy scaling system ;))
+- /admin/tickets should be paginated, I KNOW RIGHT!!
+- IKR id's should not be duplicated but a relational system will handle this in the future. system is scalable and MVC prepared!!

@@ -3,6 +3,7 @@ package com.asaitec.rest.controller;
 import com.asaitec.rest.exception.NoTicketFoundException;
 import com.asaitec.rest.model.Comment;
 import com.asaitec.rest.model.Ticket;
+import com.asaitec.rest.model.TicketStatus;
 import com.asaitec.rest.repository.OperatorRepository;
 import com.asaitec.rest.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ public class OperatorController {
 
     /**
      * Add comments to ticket.
+     *
      * @param ticketId TicketId
      * @param comments Comments to add.
      * @return Ticket with comments.
@@ -45,13 +47,14 @@ public class OperatorController {
     }
 
     /**
-     * Closes a ticket.
+     * Closes a ticket (mark as completed).
+     *
      * @param ticketId TicketId long.
      * @return Closed ticket.
      * @throws NoTicketFoundException If no ticket found.
      */
     @DeleteMapping("/ticket/{ticketId}")
     public Ticket operatorCloseTicket(@PathVariable("ticketId") long ticketId) throws NoTicketFoundException {
-        return this.ticketRepository.closeTicket(ticketId);
+        return this.ticketRepository.modifyTicketStatus(ticketId, TicketStatus.CLOSED);
     }
 }
