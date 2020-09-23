@@ -88,38 +88,12 @@ public class ClientController {
 
     /**
      * Close given ticket is present.
-     * @param ticketId
+     * @param ticketId TicketId.
      * @return Closed ticket.
      * @throws NoTicketFoundException If there is no ticket.
      */
     @DeleteMapping("/ticket/{ticketId}")
     public Ticket clientCloseTicket(@PathVariable("ticketId") int ticketId) throws NoTicketFoundException {
         return this.ticketRepository.closeTicket(ticketId);
-    }
-
-    /**
-     * Handle exception for endpoint.
-     * @param ex Exception thrown.
-     * @param request Request to manage.
-     * @return ResponseEntity with error description.
-     */
-    @ExceptionHandler({NoOperatorFoundException.class})
-    public ResponseEntity<Object> handleNoOperatorFound(
-            NoOperatorFoundException ex, WebRequest request) {
-        return new ResponseEntity<Object>(
-                "Operator not found.", new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE);
-    }
-
-    /**
-     * Handle exception for endpoint.
-     * @param ex Exception thrown.
-     * @param request Request to manage.
-     * @return ResponseEntity with error description.
-     */
-    @ExceptionHandler({NoTicketFoundException.class})
-    public ResponseEntity<Object> handleNoTicketFound(
-            NoTicketFoundException ex, WebRequest request) {
-        return new ResponseEntity<>(
-                "Ticket not found.", new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE);
     }
 }

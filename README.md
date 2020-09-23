@@ -10,3 +10,7 @@
 - Feel free to ask permissions for repo.
 - Commented with JavaDoc.
 - Ticket ID is not handled by repository as we expect SQL to manage it on the future...
+- Used user_id header when there's JWT login needed as tmp solution to handle firewall.
+- Operator should only comment their tickets, but we can't handle that constraint that easy yet.
+- Constraints @NotNull, etc not implemented due to time... and no javax hibernate validation package.
+- Tickets are not differenciated between clients and operators intentionally. We can make it easy scaling system ;))

@@ -43,6 +43,12 @@ public class TicketRepository {
                 .findFirst();
     }
 
+    public List<Ticket> findByAssignedOperator(long operatorId) {
+        return this.tickets.stream().
+                filter(p -> p.getAssignedOperatorId() == operatorId)
+                .collect(Collectors.toList());
+    }
+
     public Ticket assignTicket(long ticketId, long operatorId) throws NoOperatorFoundException, NoTicketFoundException {
         if (this.operatorRepository.findOneById(operatorId).isEmpty()) {
             throw new NoOperatorFoundException();
