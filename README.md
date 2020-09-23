@@ -1,0 +1,4 @@
+- It includes postman collection, file name: postman.json
+- Role managament is based on pathing: prefix client requires role client, that must be included on any request as header.
+- If no permissions, 401 is thrown.
+- I used mock data as "repository services".
