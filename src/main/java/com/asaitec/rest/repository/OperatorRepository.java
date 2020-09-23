@@ -35,4 +35,10 @@ public class OperatorRepository {
                 filter(p -> p.getStatus().equals(operatorStatus))
                 .collect(Collectors.toList());
     }
+
+    public Optional<Operator> findOneById(long operatorId) {
+        return this.operators.stream().
+                filter(p -> p.getId() == operatorId)
+                .findFirst();
+    }
 }

@@ -1,26 +1,37 @@
 package com.asaitec.rest.controller;
 
+import com.asaitec.rest.exception.NoOperatorFoundException;
+import com.asaitec.rest.exception.NoTicketFoundException;
 import com.asaitec.rest.model.Comment;
 import com.asaitec.rest.model.Operator;
 import com.asaitec.rest.model.OperatorStatus;
 import com.asaitec.rest.model.Ticket;
 import com.asaitec.rest.repository.OperatorRepository;
+import com.asaitec.rest.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/client")
 public class ClientController {
-    private OperatorRepository operatorRepository;
+    private final OperatorRepository operatorRepository;
+    private final TicketRepository ticketRepository;
 
-    public ClientController(OperatorRepository operatorRepository) {
+    public ClientController(OperatorRepository operatorRepository, TicketRepository ticketRepository) {
         this.operatorRepository = operatorRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     /**
      * List all operators filtered by it's status.
+     *
      * @return List<Operator> that matches current criteria. Can be empty.
      */
     @GetMapping("/list/operators/{operatorStatus}")
@@ -29,40 +40,86 @@ public class ClientController {
     }
 
     /**
+     * Creates a ticket. Should be created under it's user, but simplified.
      *
-     * @return
+     * @return Created Ticket.
      */
     @PutMapping("/ticket/create")
-    public String clientCreateTicket(Ticket ticket) {
-        return "Welcome to asaitec!";
+    public Ticket clientCreateTicket(@RequestBody Ticket ticket) throws NoOperatorFoundException {
+        return this.ticketRepository.putTicket(ticket);
     }
 
     /**
-     * Assigns a ticket to an existing operator.
-     * @param operator
+     * Assigns a ticket to an existing operator. Should be filtered to only self-created tickets by client, but simplified.
+     *
+     * @param operator Operator as body (using id), ticketId as param (valid ticket ID)
      * @return
      */
     @PostMapping("/ticket/{ticketId}/assign")
-    public String initial(@RequestBody Operator operator, @PathVariable("ticketId") int ticketId) {
-        return "Welcome to asaitec!";
-    }
-
-    @GetMapping("/ticket/{ticketId}/comments")
-    public void clientReadTicketComments(@PathVariable("ticketId") int ticketId) {
-
-    }
-
-    @PostMapping("/ticket/{ticketId}/comments")
-    public void clientAddTicketComments(@PathVariable("ticketId") int ticketId, @RequestBody List<Comment> comments) {
-
+    public Ticket initial(@RequestBody Operator operator, @PathVariable("ticketId") long ticketId) throws NoTicketFoundException, NoOperatorFoundException {
+        return this.ticketRepository.assignTicket(ticketId, operator.getId());
     }
 
     /**
+     * Retrieve ticket comments
      *
+     * @param ticketId valid ticket id as long
+     */
+    @GetMapping("/ticket/{ticketId}/comments")
+    public List<Comment> clientReadTicketComments(@PathVariable("ticketId") long ticketId) throws NoTicketFoundException {
+        Optional<Ticket> ticketOptional = this.ticketRepository.findOneById(ticketId);
+        if (ticketOptional.isEmpty()) {
+            throw new NoTicketFoundException();
+        }
+        return ticketOptional.get().getComments();
+    }
+
+    /**
+     * Add comments to a ticket, and return ticket.
+     * @param ticketId The id of the ticket, must exists.
+     * @param comments The list of comments to add.
+     * @return Ticket.
+     * @throws NoTicketFoundException If there is no ticket.
+     */
+    @PostMapping("/ticket/{ticketId}/comments")
+    public Ticket clientAddTicketComments(@PathVariable("ticketId") long ticketId, @RequestBody List<Comment> comments) throws NoTicketFoundException {
+        return this.ticketRepository.addComments(ticketId, comments);
+    }
+
+    /**
+     * Close given ticket is present.
      * @param ticketId
+     * @return Closed ticket.
+     * @throws NoTicketFoundException If there is no ticket.
      */
     @DeleteMapping("/ticket/{ticketId}")
-    public void clientCloseTicket(@PathVariable("ticketId") int ticketId) {
+    public Ticket clientCloseTicket(@PathVariable("ticketId") int ticketId) throws NoTicketFoundException {
+        return this.ticketRepository.closeTicket(ticketId);
+    }
 
+    /**
+     * Handle exception for endpoint.
+     * @param ex Exception thrown.
+     * @param request Request to manage.
+     * @return ResponseEntity with error description.
+     */
+    @ExceptionHandler({NoOperatorFoundException.class})
+    public ResponseEntity<Object> handleNoOperatorFound(
+            NoOperatorFoundException ex, WebRequest request) {
+        return new ResponseEntity<Object>(
+                "Operator not found.", new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    /**
+     * Handle exception for endpoint.
+     * @param ex Exception thrown.
+     * @param request Request to manage.
+     * @return ResponseEntity with error description.
+     */
+    @ExceptionHandler({NoTicketFoundException.class})
+    public ResponseEntity<Object> handleNoTicketFound(
+            NoTicketFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(
+                "Ticket not found.", new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE);
     }
 }

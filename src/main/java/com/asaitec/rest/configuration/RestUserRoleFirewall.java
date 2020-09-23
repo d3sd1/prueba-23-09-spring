@@ -37,6 +37,7 @@ public class RestUserRoleFirewall implements Filter {
                 response.sendError(401,"NO_ROLE_PERMISSIONS");
             }
         } catch(Exception e) {
+            response.sendError(400,"BAD_REQUEST");
             e.printStackTrace();
         }
     }
