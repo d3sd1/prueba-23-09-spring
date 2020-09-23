@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "fb9fc676-5c48-47b6-a18d-d58b1aab39e5",
+		"name": "admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all tickets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "role",
+						"type": "text",
+						"value": "admin"
+					},
+					{
+						"key": "user_id",
+						"type": "text",
+						"value": "1"
+					}
+				],
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/tickets",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ticket by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "role",
+						"type": "text",
+						"value": "admin"
+					},
+					{
+						"key": "user_id",
+						"type": "text",
+						"value": "1"
+					}
+				],
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/ticket/12",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"ticket",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete by id.",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "role",
+						"type": "text",
+						"value": "admin"
+					},
+					{
+						"key": "user_id",
+						"type": "text",
+						"value": "1"
+					}
+				],
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/ticket/del/12",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"ticket",
+						"del",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mofidy ticket status",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "role",
+						"type": "text",
+						"value": "admin"
+					},
+					{
+						"key": "user_id",
+						"type": "text",
+						"value": "1"
+					}
+				],
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/status/12/CLOSED",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"status",
+						"12",
+						"CLOSED"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mofidy ticket operator",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "role",
+						"type": "text",
+						"value": "admin"
+					},
+					{
+						"key": "user_id",
+						"type": "text",
+						"value": "1"
+					}
+				],
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/operator/12/1",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"operator",
+						"12",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b5c099c6-5795-48cb-a437-ccff36a1ec97",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "05723ed3-b255-4b3a-930d-f7a6729e1977",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "1aa57630-9bdc-4b74-9d10-7b8e0eb003a6",
+			"key": "prefix",
+			"value": "admin"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

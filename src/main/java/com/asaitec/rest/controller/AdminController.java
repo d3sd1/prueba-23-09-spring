@@ -65,10 +65,23 @@ public class AdminController {
      * @return List<Operator> that matches current criteria. Can be empty.
      */
     @PostMapping("/status/{ticketId}/{ticketStatus}")
-    public Ticket clientCloseTicket(@PathVariable("ticketId") int ticketId,
+    public Ticket clientCloseTicket(@PathVariable("ticketId") long ticketId,
                                     @PathVariable("ticketStatus") TicketStatus ticketStatus)
             throws NoTicketFoundException {
         return this.ticketRepository.modifyTicketStatus(ticketId, ticketStatus);
+    }
+
+
+    /**
+     * Modify ticket status.
+     *
+     * @return List<Operator> that matches current criteria. Can be empty.
+     */
+    @PostMapping("/operator/{ticketId}/{operatorId}")
+    public Ticket clientOperatorChange(@PathVariable("ticketId") long ticketId,
+                                       @PathVariable("operatorId") long operatorId)
+            throws NoTicketFoundException {
+        return this.ticketRepository.modifyTicketOperator(ticketId, operatorId);
     }
 
 

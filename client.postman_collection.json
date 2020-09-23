@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "9c46621c-2d85-42d3-952c-feddb48b5e4a",
+		"name": "client",
+		"description": "This calls must have \"role\" header with \"client\" value, either, it won't have access.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List available operators",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "role",
+						"value": "client",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/list/operators/AVAILABLE",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"list",
+						"operators",
+						"AVAILABLE"
+					]
+				},
+				"description": "Available statuses:\n    AVAILABLE,\n    IDLE,\n    OFFLINE;\nMust be upper-case.\nIf no valid value is present, 400 is thrown."
+			},
+			"response": []
+		},
+		{
+			"name": "Create ticket",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "role",
+						"value": "client",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ticketId\": 12,\n    \"assignedOperatorId\": 1,\n    \"description\": \"my desc\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/ticket/create",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"ticket",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign ticket to operator",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "role",
+						"value": "client",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/ticket/12/assign",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"ticket",
+						"12",
+						"assign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ticket comments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "role",
+						"value": "client",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ticketId\": 12,\n    \"assignedOperatorId\": 1,\n    \"description\": \"my desc\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/ticket/12/comments",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"ticket",
+						"12",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add ticket comments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "role",
+						"type": "text",
+						"value": "client"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"description\": \"comment 1\"\n    },\n    {\n        \"description\": \"AAAAA 2\"\n    },\n    {\n        \"description\": \"JEJEJEJE \"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/ticket/12/comments",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"ticket",
+						"12",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close ticket",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "role",
+						"type": "text",
+						"value": "client"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"description\": \"comment 1\"\n    },\n    {\n        \"description\": \"AAAAA 2\"\n    },\n    {\n        \"description\": \"JEJEJEJE \"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/ticket/12",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"ticket",
+						"12"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0ed20458-1b1f-496b-9f3b-ee8905025937",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2942bf78-ef52-4074-b4e5-b85eef6a531c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "80f1593a-8048-4940-8026-fd8809e8a294",
+			"key": "prefix",
+			"value": "client"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

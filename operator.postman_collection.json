@@ -1,0 +1,147 @@
+{
+	"info": {
+		"_postman_id": "fc4e5b34-3963-40c7-8e65-595b4c810a1c",
+		"name": "operator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get operator tickets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "role",
+						"value": "operator",
+						"type": "text"
+					},
+					{
+						"key": "user_id",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/tickets",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close ticket",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "role",
+						"type": "text",
+						"value": "operator"
+					},
+					{
+						"key": "user_id",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/ticket/12",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"ticket",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add ticket comments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "role",
+						"type": "text",
+						"value": "operator"
+					},
+					{
+						"key": "user_id",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"description\": \"comment 1\"\n    },\n    {\n        \"description\": \"AAAAA 2\"\n    },\n    {\n        \"description\": \"JEJEJEJE \"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{rest_url}}/{{prefix}}/ticket/12/comment",
+					"host": [
+						"{{rest_url}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"ticket",
+						"12",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4a9676a7-7616-4c63-aa46-da744dd23a90",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "88cb60d8-8546-4fc0-8ce7-4bcf6715f33a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "fdafa667-1417-483c-8a70-ea78fe562af2",
+			"key": "prefix",
+			"value": "operator"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

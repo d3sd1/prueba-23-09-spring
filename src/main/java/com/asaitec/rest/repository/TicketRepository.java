@@ -88,6 +88,18 @@ public class TicketRepository {
         return ticket.get();
     }
 
+    public Ticket modifyTicketOperator(long ticketId, long operatorId) throws NoTicketFoundException {
+        Optional<Ticket> ticket = this.tickets.stream().
+                filter(p -> p.getTicketId() == ticketId)
+                .findFirst();
+        if (ticket.isPresent()) {
+            ticket.get().setAssignedOperatorId(operatorId);
+        } else {
+            throw new NoTicketFoundException();
+        }
+        return ticket.get();
+    }
+
     public void deleteById(long ticketId) throws NoTicketFoundException {
         Optional<Ticket> ticket = this.tickets.stream().
                 filter(p -> p.getTicketId() == ticketId)
